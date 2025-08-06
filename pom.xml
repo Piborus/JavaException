@@ -60,9 +60,28 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.7.7</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 
 	<build>
+        <finalName>adopet-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -76,6 +95,32 @@
 					</excludes>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.21.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
